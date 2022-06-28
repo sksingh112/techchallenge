@@ -1,0 +1,21 @@
+>>> def search_values(objects, key):
+...   if isinstance(objects, list):
+...     for obj in objects:
+...       for key in search_values(obj, key):
+...         yield key
+...   elif isinstance(objects, dict):
+...     if key in objects:
+...       yield objects[key]
+...     for val in objects.values():
+...       for key in search_values(val, key):
+...         yield key
+
+>>> key_value_pair = { "id" : "rock","key1" : "dummy","key2" : "dummy2","nestedlist" : [{ "id" : "paper","nestednestedlist" : [{ "id" : "scissor", "key3" : "patio" ,"nestednestednestedlist" : [{ "id" : "spock", "key4" : "life" }]}]}]}
+>>> print list(search_values(key_value_pair,'id'))
+['rock', 'paper', 'scissor', 'spock']
+>>> print list(search_values(key_value_pair,'key1'))
+['dummy']
+>>> print list(search_values(key_value_pair,'key2'))
+['dummy2']
+>>> print list(search_values(key_value_pair,'nestednestednestedlist'))
+[[{'id': 'spock', 'key4': 'life'}]]
